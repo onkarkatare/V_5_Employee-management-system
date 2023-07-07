@@ -42,6 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Autowired
 	private EmployeeConverter converter;
+
+	@Autowired
+    	private LeaveRepository leaveRepository;
 	
 	@Override
 	public String createEmployee(Employee employee) {
@@ -247,6 +250,19 @@ public class EmployeeServiceImpl implements EmployeeService{
 		}
 		return dto;
 	}
+
+	// Method to check leave application status
+	    public String checkLeaveStatus(int leaveId) {
+	        Optional<Leave> optionalLeave = leaveRepository.findById(leaveId);
+	        if (optionalLeave.isPresent()) {
+	            Leave leave = optionalLeave.get();
+	            // Return the leave status
+	            return leave.getStatus();
+	        } else {
+	            // Handle the case when leave with the given leaveId is not found
+	            return "Leave not found";
+	        }
+	    }
 
 	
 }
