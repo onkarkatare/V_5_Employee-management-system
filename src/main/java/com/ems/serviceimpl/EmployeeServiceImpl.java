@@ -252,17 +252,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	// Method to check leave application status
-	    public String checkLeaveStatus(int leaveId) {
-	        Optional<Leave> optionalLeave = leaveRepository.findById(leaveId);
-	        if (optionalLeave.isPresent()) {
-	            Leave leave = optionalLeave.get();
-	            // Return the leave status
-	            return leave.getStatus();
-	        } else {
-	            // Handle the case when leave with the given leaveId is not found
-	            return "Leave not found";
-	        }
+	public ResponseEntity<String> checkLeaveStatus(int leaveId) {
+	    Optional<Leave> optionalLeave = leaveRepository.findById(leaveId);
+	    if (optionalLeave.isPresent()) {
+	        Leave leave = optionalLeave.get();
+	        // Return the leave status with HttpStatus.OK
+	        return ResponseEntity.ok(leave.getStatus());
+	    } else {
+	        // Return a ResponseEntity with HttpStatus.NOT_FOUND for leave not found
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Leave not found");
 	    }
-
+	}
 	
 }
